@@ -1,13 +1,11 @@
 # Repository Guidelines
 
-Our repository follows a set of guidelines to ensure a standardized and organized development process. Adhering to these norms contributes to a cohesive and efficient collaborative environment.
-
 ## Branching Conventions:
 
 ### Branch Naming:
 
-- **Feature Branches:** Use the format `BRx-feature-BRANCH NAME` for branches dedicated to implementing new features.
-- **Fix Branches:** Utilize the format `BRx-fix-BRANCH NAME` for branches intended for bug fixes.
+- **Feature Branches:** Use the format `BRx-feature-BRANCH-NAME` for branches dedicated to implementing new features.
+- **Fix Branches:** Utilize the format `BRx-fix-BRANCH-NAME` for branches intended for bug fixes.
 
 ## Pull Request (PR):
 
@@ -27,9 +25,9 @@ Prefix each commit with either `feature()` or `fix()` to indicate the nature of 
 #### Example:
 
 BR1-feature-user-authentication
-├── feature(): Add user authentication functionality
-├── feature(): Implement login and registration
-├── fix(): Resolve authentication bug in user registration
-├── feature(): Enhance password reset mechanism
-└── fix(): Fix session timeout issue
+- ├── feature(): Add user authentication functionality
+- ├── feature(): Implement login and registration
+- ├── fix(): Resolve authentication bug in user registration
+- ├── feature(): Enhance password reset mechanism
+- └── fix(): Fix session timeout issue
 
