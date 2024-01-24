@@ -78,3 +78,7 @@ class Level:
 	    [1, 1, 1, 1, 1, 1, 1, 1, 1, 1]
         ]
 
+    def is_wall_collision(self, x, y):
+        row = int(y // self.wall_height)
+        col = int(x // self.wall_width)
+        return self.maze_matrix[row][col] == 1
