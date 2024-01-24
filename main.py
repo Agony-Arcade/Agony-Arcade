@@ -18,7 +18,7 @@ pygame.display.set_caption("Agony Arcade")
 ball = Character(50, 50, 5)
 
 # Create a Level instance
-level = Level(width, height)
+level = Level(width, height, 3)
 level.generate_level()
 
 # Main loop
