@@ -2,7 +2,7 @@
 import pygame
 
 class Character:
-    def __init__(self, x, y, speed, radius=20, color=(0, 0, 0)):
+    def __init__(self, x, y, speed, radius=10, color=(0, 0, 0)):
         self.x = x
         self.y = y
         self.speed = speed
@@ -33,7 +33,6 @@ class Character:
         self.x += self.momentum_x
         self.y += self.momentum_y
 
-        # Colisión con las paredes del laberinto
         self.handle_wall_collision(maze_walls)
 
     def handle_wall_collision(self, walls):
@@ -60,4 +59,8 @@ class Character:
 
     def get_rect(self):
         return pygame.Rect(self.x - self.radius, self.y - self.radius, 2 * self.radius, 2 * self.radius)
+        
+    def set_position(self, x, y):
+        self.x = x
+        self.y = y
 

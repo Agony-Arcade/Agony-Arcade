@@ -17,11 +17,11 @@ screen = pygame.display.set_mode((width, height))
 pygame.display.set_caption("Agony Arcade")
 
 # Create a Level instance
-level = Level(width, height, 3)
+level = Level(width, height, 1)
 level.generate_level()
 
 # Generate enemies in valid positions
-num_enemies = 7
+num_enemies = 3
 enemies = []
 
 for _ in range(num_enemies):
@@ -36,7 +36,14 @@ for _ in range(num_enemies):
     enemies.append(CircleEnemy(x, y, 5))
 
 # Create a Character instance
-ball = Character(50, 50, 5)
+ball = Character(100, 100, 5)
+
+if level.maze_type == 1:
+    ball.set_position(100, 100)
+elif level.maze_type == 2:
+    ball.set_position(100, 100)
+elif level.maze_type == 3:
+    ball.set_position(100, 100)
 
 # Main loop
 clock = pygame.time.Clock()
