@@ -82,3 +82,9 @@ class Level:
         row = int(y // self.wall_height)
         col = int(x // self.wall_width)
         return self.maze_matrix[row][col] == 1
+
+    def is_wall_collision_rect(self, rect):
+        for wall in self.maze_walls:
+            if rect.colliderect(wall):
+                return True
+        return False

@@ -8,17 +8,38 @@ class CircleEnemy(Enemy):
         self.speed = 3
 
     def move(self, character, level):
+        # Calcular el ángulo hacia el personaje
         angle = math.atan2(character.y - self.y, character.x - self.x)
-        new_x = self.x + self.speed * math.cos(angle)
-        new_y = self.y + self.speed * math.sin(angle)
 
-        # Verify collision with wall
-        if not level.is_wall_collision(new_x, new_y):
-            self.x = new_x
-            self.y = new_y
-            
+        # Calcular el movimiento propuesto
+        move_x = self.speed * math.cos(angle)
+        move_y = self.speed * math.sin(angle)
+
+        # Probar movimiento horizontal y ajustar si hay colisión
+        if not level.is_wall_collision(self.x + move_x, self.y):
+            self.x += move_x
+        else:
+            # Intentar moverse verticalmente en lugar de horizontalmente
+            if not level.is_wall_collision(self.x, self.y + self.speed):
+                self.y += self.speed
+            elif not level.is_wall_collision(self.x, self.y - self.speed):
+                self.y -= self.speed
+
+        # Probar movimiento vertical y ajustar si hay colisión
+        if not level.is_wall_collision(self.x, self.y + move_y):
+            self.y += move_y
+        else:
+            # Intentar moverse horizontalmente en lugar de verticalmente
+            if not level.is_wall_collision(self.x + self.speed, self.y):
+                self.x += self.speed
+            elif not level.is_wall_collision(self.x - self.speed, self.y):
+                self.x -= self.speed
+
     def check_collision(self, character):
         distance = math.sqrt((character.x - self.x)**2 + (character.y - self.y)**2)
         if distance < self.radius + character.radius:
             return True
         return False
+
+    def get_rect(self):
+        return pygame.Rect(self.x - self.radius, self.y - self.radius, 2 * self.radius, 2 * self.radius)
