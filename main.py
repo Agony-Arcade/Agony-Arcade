@@ -45,6 +45,10 @@ elif level.maze_type == 2:
 elif level.maze_type == 3:
     ball.set_position(100, 100)
 
+# Camera variables
+camera_x = 0
+camera_y = 0
+
 # Main loop
 clock = pygame.time.Clock()
 while True:
@@ -55,6 +59,10 @@ while True:
 
     keys = pygame.key.get_pressed()
     ball.move(keys, level.maze_walls)
+
+    # Calculate the camera offset based on the ball's position
+    camera_offset_x = width // 2 - ball.x
+    camera_offset_y = height // 2 - ball.y
 
     # Move and check collisions for each enemy
     for enemy in enemies:
@@ -68,15 +76,15 @@ while True:
     else:
         screen.fill((255, 255, 255))  # Fill the screen with white color
 
-    # Draw character
-    ball.draw(screen)
-    
-    # Draw the level
-    level.draw(screen)
+    # Draw character with adjusted position based on camera offset
+    ball.draw(screen, camera_offset_x, camera_offset_y)
 
-    # Draw and update all enemies
+    # Draw the level with adjusted position based on camera offset
+    level.draw(screen, camera_offset_x, camera_offset_y)
+
+    # Draw and update all enemies with adjusted position based on camera offset
     for enemy in enemies:
-        enemy.draw(screen)
+        enemy.draw(screen, camera_offset_x, camera_offset_y)
 
     # Update the display
     pygame.display.flip()

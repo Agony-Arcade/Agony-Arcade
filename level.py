@@ -31,10 +31,10 @@ class Level:
                                             self.wall_width, self.wall_height)
                     self.maze_walls.append(wall_rect)
                     
-    def draw(self, screen):
-        # Draw maze walls
+    def draw(self, screen, camera_offset_x=0, camera_offset_y=0):
         for wall in self.maze_walls:
-            pygame.draw.rect(screen, (0, 0, 0), wall)
+            adjusted_rect = wall.move(camera_offset_x, camera_offset_y)
+            pygame.draw.rect(screen, (0, 0, 0), adjusted_rect)
 
     def generate_maze_type1(self):
         # Maze layout for type 1
@@ -82,3 +82,9 @@ class Level:
         row = int(y // self.wall_height)
         col = int(x // self.wall_width)
         return self.maze_matrix[row][col] == 1
+
+    def is_wall_collision_rect(self, rect):
+        for wall in self.maze_walls:
+            if rect.colliderect(wall):
+                return True
+        return False
