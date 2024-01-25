@@ -12,8 +12,8 @@ class Character:
         self.momentum_y = 0
         self.friction = 0.90
 
-    def draw(self, screen):
-        pygame.draw.circle(screen, self.color, (int(self.x), int(self.y)), self.radius)
+    def draw(self, screen, camera_offset_x=0, camera_offset_y=0):
+        pygame.draw.circle(screen, self.color, (int(self.x + camera_offset_x), int(self.y + camera_offset_y)), self.radius)
 
     def move(self, keys, maze_walls):
         if keys[pygame.K_LEFT]:
