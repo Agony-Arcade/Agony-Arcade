@@ -21,29 +21,30 @@ level = Level(width, height, 1)
 level.generate_level()
 
 # Generate enemies in valid positions
-num_enemies = 3
+num_enemies = 1
 enemies = []
 
-for _ in range(num_enemies):
-    valid_position = False
-    while not valid_position:
-        x = random.randint(0, width)
-        y = random.randint(0, height)
+def generate_enemy_positions():
+    enemy_positions = []
+    for _ in range(num_enemies):
+        valid_position = False
+        while not valid_position:
+            x = random.randint(0, width)
+            y = random.randint(0, height)
 
-        if not level.is_wall_collision(x, y):
-            valid_position = True
+            if not level.is_wall_collision(x, y):
+                valid_position = True
 
-    enemies.append(CircleEnemy(x, y, 5))
+        enemy_positions.append((x, y))
+    return enemy_positions
+
+enemy_positions = generate_enemy_positions()
+for pos in enemy_positions:
+    enemies.append(CircleEnemy(pos[0], pos[1], 5))
 
 # Create a Character instance
 ball = Character(100, 100, 5)
-
-if level.maze_type == 1:
-    ball.set_position(100, 100)
-elif level.maze_type == 2:
-    ball.set_position(100, 100)
-elif level.maze_type == 3:
-    ball.set_position(100, 100)
+ball.set_position(100,  100)
 
 # Camera variables
 camera_x = 0
@@ -59,6 +60,20 @@ while True:
 
     keys = pygame.key.get_pressed()
     ball.move(keys, level.maze_walls)
+
+    # Check if the character is on the red zone
+    if level.check_character_on_zone(ball.x, ball.y):
+        if not level.maze_type == 3:
+            level.maze_type += 1
+            level.generate_level()
+
+            # Reset enemy positions
+            enemy_positions = generate_enemy_positions()
+            for i, pos in enumerate(enemy_positions):
+                enemies[i].x = pos[0]
+                enemies[i].y = pos[1]
+
+        ball.set_position(100, 100)
 
     # Calculate the camera offset based on the ball's position
     camera_offset_x = width // 2 - ball.x
@@ -90,4 +105,4 @@ while True:
     pygame.display.flip()
 
     # Control the update speed
-    pygame.time.Clock().tick(60)
+    clock.tick(60)
