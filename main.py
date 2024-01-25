@@ -2,6 +2,8 @@ import pygame
 import sys
 import random
 import time
+
+import circle_enemy
 from character import Character
 from circle_enemy import CircleEnemy
 from level import Level

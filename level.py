@@ -88,3 +88,5 @@ class Level:
             if rect.colliderect(wall):
                 return True
         return False
+
+
