@@ -6,6 +6,9 @@ class CircleEnemy(Enemy):
     def __init__(self, x, y, radius):
         super().__init__(x, y, radius, (255, 255, 0))  # Yellow color for circles
         self.speed = 3
+        
+    def draw(self, screen, camera_offset_x=0, camera_offset_y=0):
+        pygame.draw.circle(screen, self.color, (int(self.x + camera_offset_x), int(self.y + camera_offset_y)), self.radius)
 
     def move(self, character, level):
         # Calcular el ángulo hacia el personaje
