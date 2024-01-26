@@ -104,9 +104,19 @@ class Level:
         ]
 
     def is_wall_collision(self, x, y):
+        # Check if the character is outside the maze boundaries
+        if x < 0 or y < 0 or x >= self.width or y >= self.height:
+            return True
+
         row = int(y // self.wall_height)
         col = int(x // self.wall_width)
-        return self.maze_matrix[row][col] == 1
+
+        # Check if the indices are within valid range
+        if 0 <= row < len(self.maze_matrix) and 0 <= col < len(self.maze_matrix[0]):
+            return self.maze_matrix[row][col] == 1
+
+        # If indices are out of range, consider it a collision
+        return True
 
     def is_wall_collision_rect(self, rect):
         for wall in self.maze_walls:
