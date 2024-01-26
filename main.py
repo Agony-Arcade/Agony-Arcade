@@ -43,11 +43,19 @@ def generate_enemy_positions(player_x, player_y, min_distance, num_enemies):
 
             # Verificar si la posición es válida y no colisiona con las posiciones existentes de los enemigos
             if not level.is_wall_collision(x, y) and \
-                    all(pygame.math.Vector2(x, y).distance(pygame.math.Vector2(enemy_x, enemy_y)) >= min_distance
+                    all(pygame.math.Vector2(x, y).distance_to(pygame.math.Vector2(enemy_x, enemy_y)) >= min_distance
                         for (enemy_x, enemy_y) in enemy_positions):
                 valid_position = True
 
         enemy_positions.append((x, y))
+
+        # Verificar si la nueva posición cumple con la distancia mínima respecto a los otros enemigos
+        for i in range(len(enemy_positions) - 1):
+            if pygame.math.Vector2(x, y).distance_to(pygame.math.Vector2(*enemy_positions[i])) < min_distance:
+                valid_position = False
+                enemy_positions.pop()  # Eliminar la posición si no cumple con la distancia mínima
+                break
+
     return enemy_positions
 
 
@@ -87,6 +95,9 @@ while True:
     # Move and check collisions for each enemy
     for enemy in enemies:
         enemy.move(ball, level)
+        if level.is_wall_collision(enemy.x, enemy.y):
+            # Ajusta la posición del enemigo si colisiona con un muro
+            enemy.undo_move()
 
     # Check collisions after all enemies have moved
     collision = any(enemy.check_collision(ball) for enemy in enemies)
