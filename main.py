@@ -34,26 +34,6 @@ ball.set_position(100, 100)
 camera_x = 0
 camera_y = 0
 
-
-# def generate_enemy_positions(player_x, player_y, min_distance, number_enemies):
-#     enemy_positions = []
-#
-#     for _ in range(number_enemies):
-#         valid_position = False
-#
-#         while not valid_position:
-#             x = random.randint(0, width)
-#             y = random.randint(0, height)
-#
-#             if not level.is_wall_collision(x, y) and \
-#                     all(abs(player_x - x) >= min_distance and abs(player_y - y) >= min_distance
-#                         for (x, y) in enemy_positions):
-#                 valid_position = True
-#
-#         enemy_positions.append((x, y))
-#
-#     return enemy_positions
-
 def generate_enemy_positions():
     enemy_positions = []
     min_distance = 300
@@ -68,7 +48,6 @@ def generate_enemy_positions():
 
         enemy_positions.append((x, y))
     return enemy_positions
-
 
 # Reset enemy positions with minimum distance
 enemy_positions = generate_enemy_positions()
