@@ -24,7 +24,16 @@ level.generate_level()
 num_enemies = 1
 enemies = []
 
-def generate_enemy_positions():
+# Create a Character instance
+ball = Character(100, 100, 5)
+ball.set_position(100, 100)
+
+# Camera variables
+camera_x = 0
+camera_y = 0
+
+
+def generate_enemy_positions(player_x, player_y, min_distance, num_enemies):
     enemy_positions = []
     for _ in range(num_enemies):
         valid_position = False
@@ -32,23 +41,19 @@ def generate_enemy_positions():
             x = random.randint(0, width)
             y = random.randint(0, height)
 
-            if not level.is_wall_collision(x, y):
+            # Verificar si la posición es válida y no colisiona con las posiciones existentes de los enemigos
+            if not level.is_wall_collision(x, y) and \
+                    all(pygame.math.Vector2(x, y).distance(pygame.math.Vector2(enemy_x, enemy_y)) >= min_distance
+                        for (enemy_x, enemy_y) in enemy_positions):
                 valid_position = True
 
         enemy_positions.append((x, y))
     return enemy_positions
 
-enemy_positions = generate_enemy_positions()
+
+enemy_positions = generate_enemy_positions(ball.x, ball.y, min_distance=20, num_enemies=num_enemies)
 for pos in enemy_positions:
     enemies.append(CircleEnemy(pos[0], pos[1], 5))
-
-# Create a Character instance
-ball = Character(100, 100, 5)
-ball.set_position(100,  100)
-
-# Camera variables
-camera_x = 0
-camera_y = 0
 
 # Main loop
 clock = pygame.time.Clock()
@@ -67,8 +72,8 @@ while True:
             level.maze_type += 1
             level.generate_level()
 
-            # Reset enemy positions
-            enemy_positions = generate_enemy_positions()
+            # Reset enemy positions with minimum distance
+            enemy_positions = generate_enemy_positions(ball.x, ball.y, min_distance=20, num_enemies=num_enemies)
             for i, pos in enumerate(enemy_positions):
                 enemies[i].x = pos[0]
                 enemies[i].y = pos[1]
